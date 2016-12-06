@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    {{ googlecharts_js }}
+    <title>Flask-GoogleCharts Example</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {{ charts_init }}
 </head>
 <body>
-{{ googlecharts.hot_dogs }}
-<br/>
-{{ googlecharts.pizza }}
+<h2>Bar Chart</h2>
+{{ charts.hot_dogs }}
+<h2>Material Line Chart</h2>
+{{ charts.spectators }}
 </body>
 </html>

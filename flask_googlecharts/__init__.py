@@ -5,8 +5,9 @@
 
     Google charts API support for Flask.
 """
-from functools import wraps
 from jinja2 import Environment, PackageLoader
+
+import datetime
 import flask
 import json
 import string
@@ -14,7 +15,7 @@ import string
 
 class GenericChart(object):
 
-    def __init__(self, name: str, options: dict = None, data_url: str = None):
+    def __init__(self, name: str, options: dict = {}, data_url: str = None):
         self.name = name
         self.options = options
         self.data_url = data_url
@@ -66,21 +67,21 @@ class GenericChart(object):
 
 class BarChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None, data_url: str = None):
+    def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
         self.charts_class = "google.visualization.BarChart"
 
 
 class LineChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None, data_url: str = None):
+    def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
         self.charts_class = "google.visualization.LineChart"
 
 
 class MaterialLineChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None, data_url: str = None):
+    def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
         self.package = 'line'
         self.charts_class = "google.charts.Line"
@@ -88,7 +89,7 @@ class MaterialLineChart(GenericChart):
 
 class PieChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None, data_url: str = None):
+    def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
         self.charts_class = "google.visualization.PieChart"
 
@@ -102,6 +103,7 @@ class GoogleCharts(object):
         self.charts = {}
         self.config = None
         self.template_env = None
+        self.js_template = None
 
         if self.app is not None:
             self.init_app(self.app)
@@ -113,10 +115,11 @@ class GoogleCharts(object):
         self.app.after_request(self._after_request)
         self.app.context_processor(self.template_variables)
         self.template_env = Environment(loader=PackageLoader('flask_googlecharts', 'templates'))
+        self.js_template = self.template_env.get_template("init.js")
 
     def template_variables(self):
         if self.charts:
-            return {'googlecharts_js': self._get_script_markup(), 'googlecharts': self._get_charts_markup()}
+            return {'charts_init': self._get_script_markup(), 'charts': self._get_charts_markup()}
         return {}
 
     def _after_request(self, resp):
@@ -131,13 +134,10 @@ class GoogleCharts(object):
         return json.dumps(packages)
 
     def _get_script_markup(self):
-        template = self.template_env.get_template("init.js")
-        return flask.Markup(template.render(charts=self.charts,
-                                            config=self.config,
-                                            packages=self.__get_packages()))
-
-    def generate_html(self):
-        pass
+        return flask.Markup(self.js_template.render(charts=self.charts,
+                                                    config=self.config,
+                                                    packages=self.__get_packages(),
+                                                    include_tags=True))
 
     def register(self, chart):
         if chart.name not in self.charts:
