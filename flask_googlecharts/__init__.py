@@ -122,7 +122,19 @@ class GoogleCharts(object):
             return {'charts_init': self._get_script_markup(), 'charts': self._get_charts_markup()}
         return {}
 
-    def _after_request(self, resp):
+    def _after_request(self, resp: flask.Response):
+        """Cleans out the charts variable between requests.  If the application is running in debug mode it will also
+        check to see if Javascript dependencies have been met and that all chart divs are included in templates.  If
+        they are not, it will log a warning."""
+        if self.app.debug and self.charts:
+            resp_data = resp.get_data().decode()
+            for x in ["loader.js", "jquery"]:
+                if x not in resp_data:
+                    self.app.logger.warning("{} script not included on template.".format(x))
+            for x in self.charts.keys():
+                if "id='googlecharts-{}'".format(x) not in resp_data:
+                    self.app.logger.warning("googlecharts-{} div not included on template.".format(x))
+
         self.charts = {}
         return resp
 
