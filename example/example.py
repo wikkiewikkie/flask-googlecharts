@@ -8,7 +8,7 @@ charts = GoogleCharts(app)
 
 @app.route("/")
 def index():
-    hot_dog_chart = BarChart("hot_dog_chart", options={"title": "Contest Results",
+    hot_dog_chart = BarChart("hot_dogs", options={"title": "Contest Results",
                                                        "width": 640,
                                                        "height": 480})
     hot_dog_chart.add_column("string", "Competitor")
@@ -24,4 +24,4 @@ def index():
 
 if __name__ == "__main__":
 
-    app.run()
+    app.run(debug=True)
