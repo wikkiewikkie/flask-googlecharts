@@ -27,3 +27,8 @@ You may also set up the ``GoogleCharts`` instance later using the **init_app** m
 
     app = Flask(__name__)
     charts.init_app(app)
+
+
+Usage
+-----
+
