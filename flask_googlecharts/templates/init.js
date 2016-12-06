@@ -8,18 +8,6 @@ google.charts.setOnLoadCallback(drawGoogleCharts);
 
 function drawGoogleCharts() {
 
-    // Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topping');
-    data.addColumn('number', 'Slices');
-    data.addRows([
-    ['Mushrooms', 3],
-    ['Onions', 1],
-    ['Olives', 1],
-    ['Zucchini', 1],
-    ['Pepperoni', 2]
-    ]);
-
     var googleCharts = {};
     var googleChartsData = {};
     var googleChartsOptions = {};
