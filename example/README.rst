@@ -1,0 +1,1 @@
+Basic example of Flask-GoogleCharts usage.
