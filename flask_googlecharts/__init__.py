@@ -93,11 +93,18 @@ class GoogleCharts(object):
         self.app = app
         self.config = app.config
         self.config.setdefault("GOOGLECHARTS_VERSION", "current")
+        self.app.after_request(self._after_request)
         self.app.context_processor(self.template_variables)
         self.template_env = Environment(loader=PackageLoader('flask_googlecharts', 'templates'))
 
     def template_variables(self):
-        return {'googlecharts_js': self._get_script_markup(), 'googlecharts': self._get_charts_markup()}
+        if self.charts:
+            return {'googlecharts_js': self._get_script_markup(), 'googlecharts': self._get_charts_markup()}
+        return {}
+
+    def _after_request(self, resp):
+        self.charts = {}
+        return resp
 
     def _get_charts_markup(self):
         return {n: flask.Markup(c.html()) for n, c in self.charts.items()}
@@ -115,13 +122,8 @@ class GoogleCharts(object):
     def generate_html(self):
         pass
 
-    def include_charts(self, f):
-        """Decorator"""
-        @wraps(f)
-        def decorated(*args, **kwargs):
-            resp = flask.make_response(f(*args, **kwargs))
-            return f(*args, **kwargs)
-        return decorated
-
     def register(self, chart):
-        self.charts[chart.name] = chart
+        if chart.name not in self.charts:
+            self.charts[chart.name] = chart
+        else:
+            raise KeyError("A chart with this name already exists.")

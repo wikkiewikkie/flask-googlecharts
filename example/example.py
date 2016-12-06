@@ -7,7 +7,6 @@ charts = GoogleCharts(app)
 
 
 @app.route("/")
-@charts.include_charts
 def index():
     hot_dog_chart = BarChart("hot_dog_chart", options={"title": "Contest Results",
                                                        "width": 640,
