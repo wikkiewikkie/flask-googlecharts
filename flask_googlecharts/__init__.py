@@ -9,6 +9,7 @@ from functools import wraps
 from jinja2 import Environment, PackageLoader
 import flask
 import json
+import string
 
 
 class GenericChart(object):
@@ -20,6 +21,14 @@ class GenericChart(object):
         self.charts_class = None
         self._columns = []
         self._rows = []
+
+        if not self.name:
+            raise ValueError("Chart name must contain at least one character.")
+        if " " in self.name:
+            raise ValueError("Chart name may not contain spaces as they are not supported in id values in HTML5.")
+        if self.name[0] not in string.ascii_letters:
+            raise ValueError("Chart name must start with a lower or uppercase letter as it is used as a JavaScript \
+            variable name")
 
     def add_column(self, name: str, type_: str):
         self._columns.append((name, type_))
