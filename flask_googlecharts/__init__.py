@@ -11,12 +11,13 @@ import flask
 import json
 
 
-class GenericGoogleChart(object):
+class GenericChart(object):
 
     def __init__(self, name: str, options: dict = None):
         self.name = name
         self.options = options
         self.package = 'corechart'
+        self.charts_class = None
         self._columns = []
         self._rows = []
 
@@ -30,7 +31,15 @@ class GenericGoogleChart(object):
         return "<div id='googlecharts-{}'></div>".format(self.name)
 
     @property
+    def js_declaration(self):
+        return "googleCharts.{} = new {}(document.getElementById('googlecharts-{}'))".format(self.name,
+                                                                                             self.charts_class,
+                                                                                             self.name)
+
+    @property
     def options_declaration(self):
+        if self.package != 'corechart':
+            return "{}.convertOptions({})".format(self.charts_class, json.dumps(self.options))
         return json.dumps(self.options)
 
     @property
@@ -38,40 +47,33 @@ class GenericGoogleChart(object):
         return json.dumps(self._rows)
 
 
-class LineGoogleChart(GenericGoogleChart):
+class BarChart(GenericChart):
 
-    @property
-    def js_declaration(self):
-        return "googleCharts.{} = new google.visualization.LineChart(document.getElementById('googlecharts-{}'))".format(self.name, self.name)
+    def __init__(self, name: str, options: dict = None):
+        super().__init__(name, options)
+        self.charts_class = "google.visualization.BarChart"
 
 
-class MaterialLineGoogleChart(GenericGoogleChart):
+class LineChart(GenericChart):
+
+    def __init__(self, name: str, options: dict = None):
+        super().__init__(name, options)
+        self.charts_class = "google.visualization.LineChart"
+
+
+class MaterialLineChart(GenericChart):
 
     def __init__(self, name: str, options: dict = None):
         super().__init__(name, options)
         self.package = 'line'
-
-    @property
-    def options_declaration(self):
-        return "google.charts.Line.convertOptions({})".format(json.dumps(self.options))
-
-    @property
-    def js_declaration(self):
-        return "googleCharts.{} = new google.charts.Line(document.getElementById('googlecharts-{}'))".format(self.name, self.name)
+        self.charts_class = "google.charts.Line"
 
 
-class PieGoogleChart(GenericGoogleChart):
+class PieChart(GenericChart):
 
-    @property
-    def js_declaration(self):
-        return "googleCharts.{} = new google.visualization.PieChart(document.getElementById('googlecharts-{}'))".format(self.name, self.name)
-
-
-class BarGoogleChart(GenericGoogleChart):
-
-    @property
-    def js_declaration(self):
-        return "googleCharts.{} = new google.visualization.BarChart(document.getElementById('googlecharts-{}'))".format(self.name, self.name)
+    def __init__(self, name: str, options: dict = None):
+        super().__init__(name, options)
+        self.charts_class = "google.visualization.PieChart"
 
 
 class GoogleCharts(object):
