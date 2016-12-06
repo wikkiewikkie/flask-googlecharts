@@ -5,6 +5,7 @@ from flask_googlecharts import GoogleCharts, BarChart, PieChart
 app = Flask(__name__)
 charts = GoogleCharts(app)
 
+
 @app.route("/data")
 def data():
 
