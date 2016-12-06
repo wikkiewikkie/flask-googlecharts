@@ -1,4 +1,5 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
 
 google.charts.load("{{ config['GOOGLECHARTS_VERSION'] }}",
@@ -13,11 +14,15 @@ function drawGoogleCharts() {
     var googleChartsOptions = {};
 
     {% for name, chart in charts.items() %}
+    {% if chart._columns|count > 0 %}
     googleChartsData.{{ name }} = new google.visualization.DataTable();
         {% for column in chart._columns %}
     googleChartsData.{{ name }}.addColumn('{{ column[0] }}', '{{ column[1] }}');
         {% endfor %}
     googleChartsData.{{ name }}.addRows({{ chart.rows_declaration }});
+    {% else %}
+    {{ chart.data_declaration }};
+    {% endif %}
     {% endfor %}
 
 

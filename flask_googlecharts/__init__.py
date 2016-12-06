@@ -14,9 +14,11 @@ import string
 
 class GenericChart(object):
 
-    def __init__(self, name: str, options: dict = None):
+    def __init__(self, name: str, options: dict = None, data_url: str = None):
         self.name = name
         self.options = options
+        self.data_url = data_url
+
         self.package = 'corechart'
         self.charts_class = None
         self._columns = []
@@ -40,6 +42,12 @@ class GenericChart(object):
         return "<div id='googlecharts-{}'></div>".format(self.name)
 
     @property
+    def data_declaration(self):
+        if self.data_url is not None:
+            return "googleChartsData.{} = new google.visualization.DataTable($.ajax({{url: '{}', \
+            dataType: 'json', async: false}}).responseText)".format(self.name, self.data_url)
+
+    @property
     def js_declaration(self):
         return "googleCharts.{} = new {}(document.getElementById('googlecharts-{}'))".format(self.name,
                                                                                              self.charts_class,
@@ -58,30 +66,30 @@ class GenericChart(object):
 
 class BarChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None):
-        super().__init__(name, options)
+    def __init__(self, name: str, options: dict = None, data_url: str = None):
+        super().__init__(name, options, data_url)
         self.charts_class = "google.visualization.BarChart"
 
 
 class LineChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None):
-        super().__init__(name, options)
+    def __init__(self, name: str, options: dict = None, data_url: str = None):
+        super().__init__(name, options, data_url)
         self.charts_class = "google.visualization.LineChart"
 
 
 class MaterialLineChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None):
-        super().__init__(name, options)
+    def __init__(self, name: str, options: dict = None, data_url: str = None):
+        super().__init__(name, options, data_url)
         self.package = 'line'
         self.charts_class = "google.charts.Line"
 
 
 class PieChart(GenericChart):
 
-    def __init__(self, name: str, options: dict = None):
-        super().__init__(name, options)
+    def __init__(self, name: str, options: dict = None, data_url: str = None):
+        super().__init__(name, options, data_url)
         self.charts_class = "google.visualization.PieChart"
 
 
