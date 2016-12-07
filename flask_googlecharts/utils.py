@@ -2,7 +2,7 @@ import datetime
 
 
 def prep_data(data: dict):
-    """Takes a dict intended to be converted to JSON for use with Google Charts and transforms dates and datetimes
+    """Takes a dict intended to be converted to JSON for use with Google Charts and transforms date and datetime
     into date string representations as described here:
 
     https://developers.google.com/chart/interactive/docs/datesandtimes

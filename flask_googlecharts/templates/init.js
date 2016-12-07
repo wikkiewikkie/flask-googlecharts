@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/charts.init.jsr"></script>
+<script type="text/javascript" src="/charts.init.js"></script>
 <script type="text/javascript">
 google.charts.load("{{ config['GOOGLECHARTS_VERSION'] }}", {'packages':{{ packages }}});
 google.charts.setOnLoadCallback(drawCharts);
