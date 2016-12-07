@@ -16,7 +16,8 @@ import string
 
 class GenericChart(object):
 
-    def __init__(self, name: str, options: dict = None, data_url: str = None):
+    def __init__(self, name, options=None, data_url=None):
+        # type: (str, dict, str) -> None
         self.name = name
         self.options = options
         self.data_url = data_url
@@ -36,7 +37,8 @@ class GenericChart(object):
             raise ValueError("name must start with a lower or uppercase letter as it is used as a JavaScript \
             variable name")
 
-    def add_column(self, type_: str, label: str = ""):
+    def add_column(self, type_, label=""):
+        # type: (str, str) -> None
         if isinstance(label, str) and isinstance(type_, str):
             if type_ in ['boolean', 'date', 'datetime', 'number', 'string', 'timeofday']:
                 self._columns.append((type_, label))
@@ -45,7 +47,8 @@ class GenericChart(object):
         else:
             raise TypeError("type_ and label must be strings")
 
-    def add_rows(self, rows: list):
+    def add_rows(self, rows):
+        # type: (list) -> None
         if isinstance(rows, list):
             self._rows += rows
         else:
@@ -101,7 +104,8 @@ class GoogleCharts(object):
         if self.app is not None:
             self.init_app(self.app)
 
-    def init_app(self, app: flask.Flask):
+    def init_app(self, app):
+        # type: (flask.Flask) -> bool
         """Initializes the extension against the app"""
         if isinstance(app, flask.Flask):
             self.app = app
@@ -125,7 +129,8 @@ class GoogleCharts(object):
             return {'charts_init': self._get_script_markup(), 'charts': self._get_charts_markup()}
         return {}
 
-    def _after_request(self, resp: flask.Response):
+    def _after_request(self, resp):
+        # type: (flask.Response) -> flask.Response
         """Cleans out the charts variable between requests.  If the application is running in debug mode it will also
         check to see if Javascript dependencies have been met and that all chart divs are included in templates.  If
         they are not, it will log a warning."""
@@ -161,6 +166,7 @@ class GoogleCharts(object):
         return json.dumps(packages)
 
     def register(self, chart: GenericChart):
+        # type: (GenericChart) -> bool
         """Registers a chart in the app"""
         if isinstance(chart, GenericChart):
             if chart.name not in self.charts:
