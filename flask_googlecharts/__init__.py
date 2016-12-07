@@ -165,7 +165,7 @@ class GoogleCharts(object):
         packages = list(set([c.package for c in self.charts.values()]))
         return json.dumps(packages)
 
-    def register(self, chart: GenericChart):
+    def register(self, chart):
         # type: (GenericChart) -> bool
         """Registers a chart in the app"""
         if isinstance(chart, GenericChart):
