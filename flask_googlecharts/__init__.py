@@ -146,7 +146,8 @@ class GoogleCharts(object):
 
     @staticmethod
     def _get_static_init():
-        return flask.send_file(pkg_resources.resource_stream("flask_googlecharts", "static/charts.init.js"))
+        return flask.send_file(pkg_resources.resource_stream("flask_googlecharts", "static/charts.init.js"),
+                               attachment_filename="charts.init.js")
 
     def _get_script_markup(self):
         return flask.Markup(self.templates['init'].render(charts=self.charts,

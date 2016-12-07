@@ -3,7 +3,7 @@ from __future__ import with_statement
 import json
 import sys
 
-from flask import Flask, url_for
+from flask import Flask
 from flask_googlecharts import BarChart, GenericChart, GoogleCharts, LineChart, MaterialLineChart
 
 if sys.version_info < (2, 7):
