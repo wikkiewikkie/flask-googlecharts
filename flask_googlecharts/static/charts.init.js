@@ -15,7 +15,8 @@ function drawCharts() {
         if (chartDataUrl) {
             chartObject.options = chartOptions;
             $.ajax({url: chartDataUrl,
-                    context: chartObject}).done( function(d) {this.draw(new google.visualization.DataTable(d)); } );
+                    context: chartObject}).done( function(d) {this.draw(new google.visualization.DataTable(d),
+                                                                        this.options); } );
         } else if (c.getAttribute('data-chart-data-element')) {
             chartObject.draw(new google.visualization.DataTable(JSON.parse($('#chart-data-' + chartName).text())),
                              chartOptions);
