@@ -11,15 +11,15 @@ charts = GoogleCharts(app)
 @app.route("/data")
 def data():
 
-    data = {"cols": [{"id": "", "label": "Date", "pattern": "", "type": "date"},
-                     {"id": "", "label": "Spectators", "pattern": "", "type": "number"}],
-            "rows": [{"c": [{"v": datetime.date(2016, 5, 1), "f": None}, {"v": 3987, "f": None}]},
-                     {"c": [{"v": datetime.date(2016, 5, 2), "f": None}, {"v": 6137, "f": None}]},
-                     {"c": [{"v": datetime.date(2016, 5, 3), "f": None}, {"v": 9216, "f": None}]},
-                     {"c": [{"v": datetime.date(2016, 5, 4), "f": None}, {"v": 22401, "f": None}]},
-                     {"c": [{"v": datetime.date(2016, 5, 5), "f": None}, {"v": 24587, "f": None}]}]}
+    d = {"cols": [{"id": "", "label": "Date", "pattern": "", "type": "date"},
+                  {"id": "", "label": "Spectators", "pattern": "", "type": "number"}],
+         "rows": [{"c": [{"v": datetime.date(2016, 5, 1), "f": None}, {"v": 3987, "f": None}]},
+                  {"c": [{"v": datetime.date(2016, 5, 2), "f": None}, {"v": 6137, "f": None}]},
+                  {"c": [{"v": datetime.date(2016, 5, 3), "f": None}, {"v": 9216, "f": None}]},
+                  {"c": [{"v": datetime.date(2016, 5, 4), "f": None}, {"v": 22401, "f": None}]},
+                  {"c": [{"v": datetime.date(2016, 5, 5), "f": None}, {"v": 24587, "f": None}]}]}
 
-    return jsonify(prep_data(data))
+    return jsonify(prep_data(d))
 
 
 @app.route("/")
