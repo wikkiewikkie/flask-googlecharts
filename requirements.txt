@@ -1,0 +1,3 @@
+Flask
+Sphinx
+Sphinx-PyPI-upload

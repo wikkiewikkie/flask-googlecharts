@@ -1,0 +1,2 @@
+include LICENSE CONTRIBUTORS
+recursive-include flask_googlecharts/templates *

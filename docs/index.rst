@@ -1,6 +1,7 @@
 Flask-GoogleCharts
 ==================
 
+
 Installation
 ------------
 
@@ -86,3 +87,12 @@ Add the chart HTML to your template::
     <body>
     {{ charts.my_chart }}
     </body>
+
+
+
+Additional Information
+======================
+
+.. toctree::
+   :maxdepth: 2
+

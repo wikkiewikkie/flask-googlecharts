@@ -1,3 +1,5 @@
 .idea/*
 templates/*
 *.pyc
+dist/*
+Flask_GoogleCharts.egg-info/*
