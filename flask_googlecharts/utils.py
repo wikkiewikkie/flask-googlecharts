@@ -27,7 +27,7 @@ def prep_data(data):
     return data
 
 
-def render_data(columns: list, rows: list):
+def render_data(columns, rows):
     # type: (list, list) -> dict
     data = {'cols': [], 'rows': []}
 
