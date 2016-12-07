@@ -7,9 +7,10 @@
 """
 from jinja2 import Environment, PackageLoader
 
-import datetime
+from .utils import render_data
 import flask
 import json
+import pkg_resources
 import string
 
 
@@ -19,6 +20,8 @@ class GenericChart(object):
         self.name = name
         self.options = options
         self.data_url = data_url
+
+        self.parent = None
 
         self.package = 'corechart'
         self.charts_class = None
@@ -39,59 +42,49 @@ class GenericChart(object):
     def add_rows(self, rows: list):
         self._rows += rows
 
+    @property
+    def data_json(self):
+        return json.dumps(render_data(self._columns, self._rows))
+
     def html(self):
-        return "<div id='googlecharts-{}'></div>".format(self.name)
+        return self.parent.templates['chart'].render(chart=self)
 
     @property
-    def data_declaration(self):
-        if self.data_url is not None:
-            return "googleChartsData.{} = new google.visualization.DataTable($.ajax({{url: '{}', \
-            dataType: 'json', async: false}}).responseText)".format(self.name, self.data_url)
-
-    @property
-    def js_declaration(self):
-        return "googleCharts.{} = new {}(document.getElementById('googlecharts-{}'))".format(self.name,
-                                                                                             self.charts_class,
-                                                                                             self.name)
-
-    @property
-    def options_declaration(self):
-        if self.package != 'corechart':
-            return "{}.convertOptions({})".format(self.charts_class, json.dumps(self.options))
+    def options_json(self):
         return json.dumps(self.options)
-
-    @property
-    def rows_declaration(self):
-        return json.dumps(self._rows)
 
 
 class BarChart(GenericChart):
 
     def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
-        self.charts_class = "google.visualization.BarChart"
+        self.class_ = "visualization"
+        self.type_ = "BarChart"
 
 
 class LineChart(GenericChart):
 
     def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
-        self.charts_class = "google.visualization.LineChart"
+        self.class_ = "visualization"
+        self.type_ = "LineChart"
 
 
 class MaterialLineChart(GenericChart):
 
     def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
+        self.class_ = "charts"
+        self.type_ = "Line"
         self.package = 'line'
-        self.charts_class = "google.charts.Line"
 
 
 class PieChart(GenericChart):
 
     def __init__(self, name: str, options: dict = {}, data_url: str = None):
         super().__init__(name, options, data_url)
-        self.charts_class = "google.visualization.PieChart"
+        self.class_ = "visualization"
+        self.type_ = "PieChart"
 
 
 class GoogleCharts(object):
@@ -103,7 +96,7 @@ class GoogleCharts(object):
         self.charts = {}
         self.config = None
         self.template_env = None
-        self.js_template = None
+        self.templates = {}
 
         if self.app is not None:
             self.init_app(self.app)
@@ -114,8 +107,16 @@ class GoogleCharts(object):
         self.config.setdefault("GOOGLECHARTS_VERSION", "current")
         self.app.after_request(self._after_request)
         self.app.context_processor(self.template_variables)
+
+        # establish route for static javascript
+        self.app.add_url_rule("/charts.init.js", "charts_init_js", self._get_static_init)
+
+        # initialize templates
         self.template_env = Environment(loader=PackageLoader('flask_googlecharts', 'templates'))
-        self.js_template = self.template_env.get_template("init.js")
+        self.templates['init'] = self.template_env.get_template("init.js")
+        self.templates['chart'] = self.template_env.get_template("chart.html")
+
+
 
     def template_variables(self):
         if self.charts:
@@ -132,8 +133,8 @@ class GoogleCharts(object):
                 if x not in resp_data:
                     self.app.logger.warning("{} script not included on template.".format(x))
             for x in self.charts.keys():
-                if "id='googlecharts-{}'".format(x) not in resp_data:
-                    self.app.logger.warning("googlecharts-{} div not included on template.".format(x))
+                if "data-chart-name=\"{}\"".format(x) not in resp_data:
+                    self.app.logger.warning("Chart \"{}\" not included on template.".format(x))
 
         self.charts = {}
         return resp
@@ -141,18 +142,22 @@ class GoogleCharts(object):
     def _get_charts_markup(self):
         return {n: flask.Markup(c.html()) for n, c in self.charts.items()}
 
+    def _get_static_init(self):
+        return flask.send_file(pkg_resources.resource_stream("flask_googlecharts", "static/charts.init.js"))
+
     def __get_packages(self):
         packages = list(set([c.package for c in self.charts.values()]))
         return json.dumps(packages)
 
     def _get_script_markup(self):
-        return flask.Markup(self.js_template.render(charts=self.charts,
-                                                    config=self.config,
-                                                    packages=self.__get_packages(),
-                                                    include_tags=True))
+        return flask.Markup(self.templates['init'].render(charts=self.charts,
+                                                          config=self.config,
+                                                          packages=self.__get_packages(),
+                                                          include_tags=True))
 
     def register(self, chart):
         if chart.name not in self.charts:
+            chart.parent = self
             self.charts[chart.name] = chart
         else:
             raise KeyError("A chart with this name already exists.")

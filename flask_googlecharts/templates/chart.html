@@ -1,0 +1,8 @@
+<div class='chart'
+     data-chart-class="{{ chart.class_ }}"
+     {% if chart.data_url %}data-chart-data-url="{{ chart.data_url }}"{% endif %}
+     {% if chart._columns %}data-chart-data-element="data-chart-data-element"{% endif %}
+     data-chart-name="{{ chart.name }}"
+     data-chart-type="{{ chart.type_ }}"
+     {% if chart.package != "corechart" %}data-chart-material="data-chart-material"{% endif %}>
+</div>

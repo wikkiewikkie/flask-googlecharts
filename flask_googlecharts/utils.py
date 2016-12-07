@@ -24,3 +24,18 @@ def prep_data(data: dict):
                                                      val['v'].month-1,  # JS Dates are 0-based
                                                      val['v'].day)
     return data
+
+
+def render_data(columns: list, rows: list):
+
+    data = {'cols': [], 'rows': []}
+
+    for column in columns:
+        data['cols'].append({"id": "", "label": column[1], "pattern": "", "type": column[0]})
+
+    for row in rows:
+        new_row = {'c': []}
+        for field in row:
+            new_row['c'].append({"v": field, "f": None})
+        data['rows'].append(new_row)
+    return prep_data(data)
