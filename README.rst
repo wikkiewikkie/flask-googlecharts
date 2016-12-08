@@ -1,9 +1,5 @@
 Flask-GoogleCharts
 ===================
-
-.. image:: https://travis-ci.org/wikkiewikkie/flask-googlecharts.svg?branch=master
-    :target: https://travis-ci.org/wikkiewikkie/flask-googlecharts
-
 Flask-GoogleCharts simplifies the process of integrating Google Charts into Flask applications.
 
 
@@ -29,3 +25,9 @@ chart when it is created, and the second shows how to configure the chart to pul
 Documentation
 -------------
 Documentation for Flask-GoogleCharts can be found at `http://pythonhosted.org/Flask-GoogleCharts/ <http://pythonhosted.org/Flask-GoogleCharts/>`_.
+
+Support
+-------
+Flask-GoogleCharts is tested against Python 2.7 and 3.3 - 3.5.
+.. image:: https://travis-ci.org/wikkiewikkie/flask-googlecharts.svg?branch=master
+    :target: https://travis-ci.org/wikkiewikkie/flask-googlecharts
