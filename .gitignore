@@ -3,3 +3,4 @@ templates/*
 *.pyc
 dist/*
 Flask_GoogleCharts.egg-info/*
+docs/_build/*
