@@ -66,10 +66,82 @@ class GenericChart(object):
         return json.dumps(self.options)
 
 
+class AnnotationChart(GenericChart):
+    class_ = "visualization"
+    type_ = "AnnotationChart"
+    package = "annotationchart"
+
+
+class AreaChart(GenericChart):
+    class_ = "visualization"
+    type_ = "AreaChart"
+    package = "corechart"
+
+
 class BarChart(GenericChart):
     class_ = "visualization"
     type_ = "BarChart"
     package = 'corechart'
+
+
+class BubbleChart(GenericChart):
+    class_ = "visualization"
+    type_ = "BubbleChart"
+    package = "corechart"
+
+
+class CalendarChart(GenericChart):
+    class_ = "visualization"
+    type_ = "Calendar"
+    package = "calendar"
+
+
+class CandlestickChart(GenericChart):
+    class_ = "visualization"
+    type_ = "CandlestickChart"
+    package = "corechart"
+
+
+class ColumnChart(GenericChart):
+    class_ = "visualization"
+    type_ = "ColumnChart"
+    package = "corechart"
+
+
+class ComboChart(GenericChart):
+    class_ = "visualization"
+    type_ = "ComboChart"
+    package = "corechart"
+
+
+class DiffChart(GenericChart):
+
+    def __init__(self, name, options=None, data_url=None):
+        raise NotImplementedError("DiffChart is not yet available in Flask-GoogleCharts")
+
+
+class GanttChart(GenericChart):
+    class_ = "visualization"
+    type_ = "Gantt"
+    package = "gantt"
+
+
+class GaugeChart(GenericChart):
+    class_ = "visualization"
+    type_ = "Gauge"
+    package = "gauge"
+
+
+class GeoChart(GenericChart):
+    class_ = "visualization"
+    type_ = "GeoChart"
+    package = "geochart"
+
+
+class Histogram(GenericChart):
+    class_ = "visualization"
+    type_ = "Histogram"
+    package = "corechart"
 
 
 class LineChart(GenericChart):
@@ -78,10 +150,40 @@ class LineChart(GenericChart):
     package = 'corechart'
 
 
+class Map(GenericChart):
+    class_ = "visualization"
+    type_ = "Map"
+    package = "map"
+
+
+class MaterialBarChart(GenericChart):
+    class_ = "charts"
+    type_ = "Bar"
+    package = "bar"
+
+
+class MaterialColumnChart(GenericChart):
+    class_ = "charts"
+    type_ = "Bar"
+    package = "bar"
+
+
 class MaterialLineChart(GenericChart):
     class_ = "charts"
     type_ = "Line"
     package = 'line'
+
+
+class MaterialScatterChart(GenericChart):
+    class_ = "charts"
+    type_ = "Scatter"
+    package = "scatter"
+
+
+class OrgChart(GenericChart):
+    class_ = "visualization"
+    type_ = "OrgChart"
+    package = "orgchart"
 
 
 class PieChart(GenericChart):
@@ -89,6 +191,17 @@ class PieChart(GenericChart):
     type_ = "PieChart"
     package = 'corechart'
 
+
+class Sankey(GenericChart):
+    class_ = "visualization"
+    type_ = "Sankey"
+    package = "sankey"
+
+
+class ScatterChart(GenericChart):
+    class_ = "visualization"
+    type_ = "ScatterChart"
+    package = "corechart"
 
 class GoogleCharts(object):
 
