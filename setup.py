@@ -25,6 +25,8 @@ setup(
     description='Google Charts API support for Flask',
     long_description=__doc__,
     packages=['flask_googlecharts'],
+    package_data={
+        'flask_googlecharts': ['templates/*', 'static/*'], },
     py_modules=['flask_googlecharts'],
     zip_safe=False,
     platforms='any',
