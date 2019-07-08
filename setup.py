@@ -17,7 +17,7 @@ extra = {}
 install_requires = ['Flask>=0.10.1']
 setup(
     name='Flask-GoogleCharts',
-    version='0.0.2',
+    version='0.1.0',
     url='http://github.com/wikkiewikkie/flask-googlecharts/',
     license='MIT',
     author='Kevin Schellenberg',
@@ -33,7 +33,7 @@ setup(
     install_requires=install_requires,
     test_suite='test_googlecharts',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Flask',
         'Intended Audience :: Developers',
@@ -42,6 +42,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: JavaScript',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules'
