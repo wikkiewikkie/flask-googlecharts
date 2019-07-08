@@ -28,7 +28,7 @@ Documentation for Flask-GoogleCharts can be found at `http://pythonhosted.org/Fl
 
 Support
 -------
-Flask-GoogleCharts is tested against Python 2.7 and 3.3 - 3.5.
+Flask-GoogleCharts is tested against Python 2.7 and 3.4 - 3.7.
 
 .. image:: https://travis-ci.org/wikkiewikkie/flask-googlecharts.svg?branch=master
     :target: https://travis-ci.org/wikkiewikkie/flask-googlecharts
