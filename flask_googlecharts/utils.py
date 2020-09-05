@@ -1,5 +1,6 @@
 import datetime
 
+
 def prep_data(data):
     # type: (dict) -> dict
     """Takes a dict intended to be converted to JSON for use with Google Charts and transforms date and datetime
