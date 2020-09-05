@@ -13,13 +13,15 @@ def prep_data(data):
     for row in data['rows']:
         for val in row['c']:
             if isinstance(val['v'], datetime.datetime):
-                val['v'] = "Date({}, {}, {})".format(val['v'].year,
-                                                     val['v'].month-1,  # JS Dates are 0-based
-                                                     val['v'].day,
-                                                     val['v'].hour,
-                                                     val['v'].minute,
-                                                     val['v'].second,
-                                                     val['v'].microsecond)
+                milliseconds = round(val['v'].microsecond / 1000)  # JS takes milliseconds, not microseconds
+                val['v'] = "Date({}, {}, {}, {}, {}, {}, {})".format(val['v'].year,
+                                                                     val['v'].month-1,  # JS Dates are 0-based
+                                                                     val['v'].day,
+                                                                     val['v'].hour,
+                                                                     val['v'].minute,
+                                                                     val['v'].second,
+                                                                     milliseconds
+                                                                     )
             elif isinstance(val['v'], datetime.date):
                 val['v'] = "Date({}, {}, {})".format(val['v'].year,
                                                      val['v'].month-1,  # JS Dates are 0-based
