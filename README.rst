@@ -1,4 +1,4 @@
-Flask-GoogleCharts-an amazig site you can have
+Flask-GoogleCharts-an amazing project..
 ===================
 Flask-GoogleCharts simplifies the process of integrating Google Charts into Flask applications.
 
