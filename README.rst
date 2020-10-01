@@ -1,9 +1,9 @@
-Flask-GoogleCharts
+FLASK-GOOGLECHARTS
 ===================
 Flask-GoogleCharts simplifies the process of integrating Google Charts into Flask applications.
 
 
-Installation
+INSTALLATION
 ------------
 Flask-GoogleCharts can be installed using pip:
 
@@ -16,17 +16,18 @@ You may also download the GitHub repository and install Flask-GoogleCharts manua
     python setup.py install
 
 
-Examples
+EXAMPLES
 --------
 There is a basic example with two charts in the */example* folder.  The first demonstrates how to load data into the
 chart when it is created, and the second shows how to configure the chart to pull from a JSON data source using AJAX.
 
 
-Documentation
+DOCUMENTATION
 -------------
 Documentation for Flask-GoogleCharts can be found at `http://pythonhosted.org/Flask-GoogleCharts/ <http://pythonhosted.org/Flask-GoogleCharts/>`_.
 
-Support
+
+SUPPORT
 -------
 Flask-GoogleCharts is tested against Python 2.7 and 3.4 - 3.7.
 
