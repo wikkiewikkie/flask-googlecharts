@@ -1,4 +1,4 @@
-Flask-GoogleCharts
+Flask-GoogleCharts API
 ===================
 Flask-GoogleCharts simplifies the process of integrating Google Charts into Flask applications.
 
