@@ -261,7 +261,7 @@ class GoogleCharts(object):
         return resp
 
     def _get_charts_markup(self):
-        return {n: flask.Markup(c.html()) for n, c in self.charts.items()}
+        return {n: Markup(c.html()) for n, c in self.charts.items()}
 
     @staticmethod
     def _get_static_init():
