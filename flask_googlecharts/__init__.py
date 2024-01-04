@@ -6,6 +6,7 @@
     Google charts API support for Flask.
 """
 from jinja2 import Environment, PackageLoader
+from markupsafe import Markup
 
 from .utils import render_data
 import flask
@@ -260,15 +261,15 @@ class GoogleCharts(object):
         return resp
 
     def _get_charts_markup(self):
-        return {n: flask.Markup(c.html()) for n, c in self.charts.items()}
+        return {n: Markup(c.html()) for n, c in self.charts.items()}
 
     @staticmethod
     def _get_static_init():
         return flask.send_file(pkg_resources.resource_stream("flask_googlecharts", "static/charts.init.js"),
-                               attachment_filename="charts.init.js")
+                               download_name="charts.init.js")
 
     def _get_script_markup(self):
-        return flask.Markup(self.templates['init'].render(charts=self.charts,
+        return Markup(self.templates['init'].render(charts=self.charts,
                                                           config=self.config,
                                                           packages=self.packages(),
                                                           include_tags=True))
